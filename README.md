@@ -7,6 +7,8 @@ https://developers.google.com/api-client-library/javascript/start/start-js
 Run `ga.html`. This sample need to adjust like [this page](https://ga-dev-tools.appspot.com/account-explorer/) to get those ids
 
 ## Get Access Token
+Read the following [article](https://developers.google.com/identity/sign-in/web/server-side-flow)
+
 Go through [this library](https://github.com/googleapis/google-api-nodejs-client) to get access token
 Find out more [here](https://developers.google.com/identity/protocols/OAuth2WebServer)
 

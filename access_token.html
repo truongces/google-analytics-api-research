@@ -2,6 +2,8 @@
   <head></head>
   <body>
     <script type="text/javascript">
+      // @SEE: https://developers.google.com/identity/sign-in/web/backend-auth
+
       function handleClientLoad() {
         // Loads the client library and the auth2 library together for efficiency.
         // Loading the auth2 library is optional here since `gapi.client.init` function will load
@@ -13,7 +15,7 @@
         // Initialize the client with API key and People API, and initialize OAuth with an
         // OAuth 2.0 client ID and scopes (space delimited string) to request access.
         gapi.client.init({
-            apiKey: 'AIzaSyCbHKapuiiWtSfaGwVtUp_6sTiaJlNwLeU',
+            // apiKey: 'AIzaSyCbHKapuiiWtSfaGwVtUp_6sTiaJlNwLeU',
             discoveryDocs: ["https://people.googleapis.com/$discovery/rest?version=v1"],
             clientId: '214580349387-ikied5ehqevvcam0psm0odd01sm3bfpn.apps.googleusercontent.com',
             scope: 'profile'
@@ -29,8 +31,9 @@
       function updateSigninStatus(isSignedIn) {
         // When signin status changes, this function is called.
         // If the signin status is changed to signedIn, we make an API call.
-				console.log(isSignedIn);
         if (isSignedIn) {
+          // console.log('Google Id:', gapi.auth2.getAuthInstance().currentUser.get().getId());
+          console.log('Access Token:', gapi.auth2.getAuthInstance().currentUser.get().getAuthResponse());
           makeApiCall();
         }
       }
@@ -63,5 +66,6 @@
     </script>
     <button id="signin-button" onclick="handleSignInClick()">Sign In</button>
     <button id="signout-button" onclick="handleSignOutClick()">Sign Out</button>
+    <h1>See console log</h1>
   </body>
 </html>
