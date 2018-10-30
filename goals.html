@@ -1,0 +1,85 @@
+<html>
+  <head>
+    <script src="https://apis.google.com/js/api.js"></script>
+  </head>
+  <body>
+		<button id="auth-button">Authorize</button>
+		<div id="results"></div>
+
+    <script>
+			var CLIENT_ID = '214580349387-ikied5ehqevvcam0psm0odd01sm3bfpn.apps.googleusercontent.com';
+			// Set authorized scope.
+			var SCOPES = ['https://www.googleapis.com/auth/analytics.readonly'];
+
+
+			function authorize(event) {
+				// Handles the authorization flow.
+				// `immediate` should be false when invoked from the button click.
+				var useImmdiate = event ? false : true;
+				var authData = {
+					client_id: CLIENT_ID,
+					scope: SCOPES,
+					immediate: useImmdiate
+				};
+
+				gapi.auth.authorize(authData, function(response) {
+					var authButton = document.getElementById('auth-button');
+					if (response.error) {
+						// authButton.hidden = false;
+					}
+					else {
+						// authButton.hidden = true;
+						listGoals();
+					}
+				});
+			}
+
+			/*
+			* Requests a list of all goals for the authorized user.
+			*/
+			function listGoals() {
+			  gapi.client.load('analytics', 'v3').then(function() {
+					var request = gapi.client.analytics.management.goals.list({
+						'accountId': '10720235',
+						'webPropertyId': 'UA-10720235-1',
+						'profileId': '21621874'
+					});
+					request.execute(printGoals);
+				});
+			}
+
+			/*
+			* The results of the list method are passed as the results object.
+			* The following code shows how to iterate through them.
+			*/
+			function printGoals(results) {
+				console.log(results);
+				if (results && !results.error) {
+					var goals = results.items;
+					for (var i = 0, goal; goal = goals[i]; i++) {
+						console.log('Account Id: ' + goal.accountId);
+						console.log('Property Id: ' + goal.webPropertyId);
+						console.log('Internal Property Id: ' + goal.internalWebPropertyId);
+						console.log('View (Profile) Id: ' + goal.profileId);
+
+						console.log('Goal Id: ' + goal.id);
+						console.log('Goal Name: ' + goal.name);
+						console.log('Goal Value: ' + goal.value);
+						console.log('Goal Active: ' + goal.active);
+						console.log('Goal Type: ' + goal.type);
+
+						console.log('Created: ' + goal.created);
+						console.log('Updated: ' + goal.updated);
+
+						console.log(goal);
+					}
+				}
+			}
+
+
+			// Add an event listener to the 'auth-button'.
+			document.getElementById('auth-button').addEventListener('click', authorize);
+		</script>
+		<script src="https://apis.google.com/js/client.js?onload=authorize"></script>
+  </body>
+</html>
